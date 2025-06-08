@@ -1,6 +1,6 @@
 import numpy as np
 
-def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations=100):
+def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations=100, verbose=False):
     """
     Gauss-Seidel Iterative Method for solving a system of linear equations Ax = b.
 
@@ -35,24 +35,25 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     x = initial_guess if initial_guess is not None else np.zeros(n, dtype=np.float64) 
  
     
-    y = [chr(i) for i in range(97, 97+n)]
-    print(f'it: {y} Error:')
+    if verbose:
+        header_vars = [f'x_{i}' for i in range(n)]
+        print(f"Iteration: {' '.join(header_vars):<30} Error (L2 Norm):")
 
     for iteration in range(max_iterations):
         x_old = np.copy(x) # Store the old x for error calculation
-        x_new = np.copy(x)
         for i in range(n):
-            sigma = sum(A[i, j] * x_new[j] for j in range(n) if j != i)
-            x_new[i] = (b[i] - sigma) / A[i, i]
+            sigma = np.dot(A[i, :i], x[:i]) + np.dot(A[i, i+1:], x_old[i+1:])
+            x[i] = (b[i] - sigma) / A[i, i]
 
         # Calculate error using the L2 norm for a single scalar value
-        current_error = np.linalg.norm(x_new - x_old) # ¡Ojo! x_new es la solución actualizada, x_old es la previa
+        current_error = np.linalg.norm(x - x_old) 
         
-        if current_error < tolerance:
-            return x_new, iteration + 1
-        
-        x = x_new
+        if verbose:
+            print(f"{iteration:<9}: {str(np.round(x, 6)):<30} {current_error:.6e}")
 
+        if current_error < tolerance:
+            return x, iteration + 1
+        
     raise ValueError(f"Gauss-Seidel method did not converge within {max_iterations} iterations. "
                      f"Current error: {current_error:.6e}")
 
