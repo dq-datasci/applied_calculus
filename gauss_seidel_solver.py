@@ -1,5 +1,7 @@
 import numpy as np
+from colorama import Fore, Style, Back, init
 
+init(autoreset=True) # Para que los colores se reseteen automáticamente
 def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations=100, verbose=False):
     """
     Gauss-Seidel Iterative Method for solving a system of linear equations Ax = b.
@@ -23,11 +25,11 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     """
 
     if not isinstance(A, np.ndarray) or not isinstance(b, np.ndarray):
-        raise TypeError("A and b must be numpy arrays.")
+        raise TypeError(f"{Fore.RED}{Style.BRIGHT}Error de Tipo:{Style.RESET_ALL} A y b deben ser arrays de NumPy.")
     if A.ndim != 2 or A.shape[0] != A.shape[1]:
-        raise ValueError("Matrix A must be a square matrix.")
+        raise ValueError(f"{Fore.RED}{Style.BRIGHT}Error de Validación:{Style.RESET_ALL} La matriz A debe ser cuadrada.")
     if A.shape[0] != len(b):
-        raise ValueError("Dimensions of matrix A and vector b do not match.")
+        raise ValueError(f"{Fore.RED}{Style.BRIGHT}Error de Validación:{Style.RESET_ALL} Las dimensiones de la matriz A y el vector b no coinciden.")
 
     A = A.astype(np.float64)
     b = b.astype(np.float64)
@@ -36,15 +38,17 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     
     # Check for zero diagonal elements
     if np.any(np.diag(A) == 0):
-        raise ValueError("Diagonal element(s) of matrix A are zero. Gauss-Seidel may not converge or divide by zero.")
+        raise ValueError(f"{Fore.RED}{Style.BRIGHT}Error de Configuración:{Style.RESET_ALL} Elemento(s) diagonal(es) de la matriz A son cero. Gauss-Seidel puede no converger o causar división por cero.")
+    # Check for negative diagonal elements
+    if np.any(np.diag(A) < 0):
+        raise ValueError("Negative diagonal element(s) of matrix A. Gauss-Seidel may not converge.")
 
     x = initial_guess if initial_guess is not None else np.zeros(n, dtype=np.float64) 
  
     
     if verbose:
         header_vars = [f'x_{i}' for i in range(n)]
-        print(f"Iteration: {' '.join(header_vars):<30} Error (L2 Norm):")
-
+        print(f"Iteración: {Fore.CYAN}{Style.DIM}{' '.join(header_vars):<30} {Fore.LIGHTMAGENTA_EX}{Style.DIM}Error (Norma L2):{Style.RESET_ALL}")
     for iteration in range(max_iterations):
         x_old = np.copy(x) # Store the old x for error calculation
         for i in range(n):
@@ -55,11 +59,15 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
         current_error = np.linalg.norm(x - x_old) 
         
         if verbose:
-            print(f"{iteration:<9}: {str(np.round(x, 6)):<30} {current_error:.6e}")
-
+            print(f"{iteration:<9}: {Style.DIM}{Fore.LIGHTCYAN_EX}{str(np.round(x, 6)):<30}{Style.RESET_ALL} {Style.DIM}{Fore.MAGENTA}{current_error:.6e}{Style.RESET_ALL}")
         if current_error < tolerance:
             return x, iteration + 1
         
-    raise ValueError(f"Gauss-Seidel method did not converge within {max_iterations} iterations. "
-                     f"Current error: {current_error:.6e}")
+    raise ValueError(f"{Fore.RED}{Style.BRIGHT}Error de Convergencia:{Style.RESET_ALL} El método de Gauss-Seidel no convergió dentro de {max_iterations} iteraciones. "
+                     f"Error actual: {current_error:.6e}")
 
+def exito(sol_vec, num_iter, title="¡Convergencia exitosa!"):
+    print("\n" + Back.GREEN + Fore.WHITE + Style.BRIGHT + f" {title.upper()} ")
+    print("-" * (len(title) + 4))
+    print(f"\nSolution vector: {Fore.GREEN}{sol_vec}")
+    print(f"Number of iterations: {Fore.GREEN}{num_iter}")

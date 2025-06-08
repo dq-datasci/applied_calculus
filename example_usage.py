@@ -1,5 +1,9 @@
 from gauss_seidel_solver import gauss_seidel_method
+from gauss_seidel_solver import exito
 import numpy as np
+from colorama import Fore, Back, Style, init
+
+init(autoreset=True)
 
 if __name__ == "__main__":
     # Example 1
@@ -10,8 +14,7 @@ if __name__ == "__main__":
     print("--- Example 1 ---")
     try:
         solution1, num_iterations1 = gauss_seidel_method(A1, b1, verbose=True)
-        print("\nSolution vector:", solution1)
-        print("Number of iterations:", num_iterations1)
+        exito(solution1,num_iterations1)
     except ValueError as e:
         print(f"Error: {e}")
     except TypeError as e: # Add TypeError handling
@@ -28,8 +31,7 @@ if __name__ == "__main__":
     print("--- Example 2 ---")
     try:
         solution2, num_iterations2 = gauss_seidel_method(A2, b2, verbose=True)
-        print("\nSolution vector:", solution2)
-        print("Number of iterations:", num_iterations2)
+        exito(solution2,num_iterations2)
     except ValueError as e:
         print(f"Error: {e}")
     except TypeError as e: # Add TypeError handling
@@ -43,8 +45,7 @@ if __name__ == "__main__":
     b3 = np.array([1, 2, 3])
     try:
         solution3, num_iterations3 = gauss_seidel_method(A3, b3, verbose=True)
-        print("\nSolution vector:", solution3)
-        print("Number of iterations:", num_iterations3)
+        exito(solution3,num_iterations3)
     except ValueError as e:
         print(f"Caught expected error: {e}")
     except TypeError as e:
@@ -59,13 +60,12 @@ if __name__ == "__main__":
     b4 = np.array([1, 2])
     try:
         solution4, num_iterations4 = gauss_seidel_method(A4, b4, verbose=True)
-        print("\nSolution vector:", solution4)
-        print("Number of iterations:", num_iterations4)
+        exito(solution4,num_iterations4)
     except ValueError as e:
         print(f"Caught expected error: {e}")
     except TypeError as e:
         print(f"Caught unexpected error: {e}")
-        
+
     print("\n" + "="*30 + "\n")
 
     # Example 5:  Dimensions of matrix A and vector b do not match.(will raise ValueError)
@@ -75,8 +75,7 @@ if __name__ == "__main__":
     b5 = np.array([1, 2, 3])
     try:
         solution5, num_iterations5 = gauss_seidel_method(A5, b5, verbose=True)
-        print("\nSolution vector:", solution5)
-        print("Number of iterations:", num_iterations5)
+        exito(solution5,num_iterations5)
     except ValueError as e:
         print(f"Caught expected error: {e}")
     except TypeError as e:
