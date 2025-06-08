@@ -42,7 +42,9 @@ if __name__ == "__main__":
     A3 = np.array([[1, 2], [3, 4], [5, 6]])
     b3 = np.array([1, 2, 3])
     try:
-        gauss_seidel_method(A3, b3, verbose=True)
+        solution3, num_iterations3 = gauss_seidel_method(A3, b3, verbose=True)
+        print("\nSolution vector:", solution3)
+        print("Number of iterations:", num_iterations3)
     except ValueError as e:
         print(f"Caught expected error: {e}")
     except TypeError as e:
@@ -52,10 +54,29 @@ if __name__ == "__main__":
 
     # Example 4: Zero diagonal element (will raise ValueError)
     print("--- Example 4: Zero diagonal element ---")
-    A4 = np.array([[1, 2], [0, 4]])
+    A4 = np.array([[0, 2], 
+                   [3, 4]])
     b4 = np.array([1, 2])
     try:
-        gauss_seidel_method(A4, b4, verbose=True)
+        solution4, num_iterations4 = gauss_seidel_method(A4, b4, verbose=True)
+        print("\nSolution vector:", solution4)
+        print("Number of iterations:", num_iterations4)
+    except ValueError as e:
+        print(f"Caught expected error: {e}")
+    except TypeError as e:
+        print(f"Caught unexpected error: {e}")
+        
+    print("\n" + "="*30 + "\n")
+
+    # Example 5:  Dimensions of matrix A and vector b do not match.(will raise ValueError)
+    print("--- Example 5: Dimensions of matrix A and vector b do not match ---")
+    A5 = np.array([[3, 2], 
+                   [3, 4]])
+    b5 = np.array([1, 2, 3])
+    try:
+        solution5, num_iterations5 = gauss_seidel_method(A5, b5, verbose=True)
+        print("\nSolution vector:", solution5)
+        print("Number of iterations:", num_iterations5)
     except ValueError as e:
         print(f"Caught expected error: {e}")
     except TypeError as e:
