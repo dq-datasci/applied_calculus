@@ -1,5 +1,4 @@
 from gauss_seidel_solver import gauss_seidel_method
-from gauss_seidel_solver import exito
 import numpy as np
 from colorama import Fore, Back, Style, init
 
@@ -12,15 +11,8 @@ if __name__ == "__main__":
                    [2, -3, 10]])
     b1 = np.array([7, 3, -1])
     print("--- Example 1 ---")
-    try:
-        solution1, num_iterations1 = gauss_seidel_method(A1, b1, verbose=True)
-        exito(solution1,num_iterations1)
-    except ValueError as e:
-        print(f"Error: {e}")
-    except TypeError as e: # Add TypeError handling
-        print(f"Error: {e}")
-
-    print("\n" + "="*30 + "\n")
+    # Simplemente llama a la función, el decorador se encarga del resto
+    gauss_seidel_method(A1, b1, verbose=True)
 
     # Example 2 (Another system)
     A2 = np.array([[10., -1., 2., 0.],
@@ -29,54 +21,24 @@ if __name__ == "__main__":
                    [0., 3., -1., 8.]])
     b2 = np.array([6., 25., -11., 15.])
     print("--- Example 2 ---")
-    try:
-        solution2, num_iterations2 = gauss_seidel_method(A2, b2, verbose=True)
-        exito(solution2,num_iterations2)
-    except ValueError as e:
-        print(f"Error: {e}")
-    except TypeError as e: # Add TypeError handling
-        print(f"Error: {e}")
-
-    print("\n" + "="*30 + "\n")
+    gauss_seidel_method(A2, b2, verbose=True)
 
     # Example 3: Non-square matrix (will raise ValueError)
     print("--- Example 3: Non-square matrix ---")
     A3 = np.array([[1, 2], [3, 4], [5, 6]])
     b3 = np.array([1, 2, 3])
-    try:
-        solution3, num_iterations3 = gauss_seidel_method(A3, b3, verbose=True)
-        exito(solution3,num_iterations3)
-    except ValueError as e:
-        print(f"Caught expected error: {e}")
-    except TypeError as e:
-        print(f"Caught unexpected error: {e}")
-
-    print("\n" + "="*30 + "\n")
+    gauss_seidel_method(A3, b3, verbose=True)
 
     # Example 4: Zero diagonal element (will raise ValueError)
     print("--- Example 4: Zero diagonal element ---")
     A4 = np.array([[0, 2], 
                    [3, 4]])
     b4 = np.array([1, 2])
-    try:
-        solution4, num_iterations4 = gauss_seidel_method(A4, b4, verbose=True)
-        exito(solution4,num_iterations4)
-    except ValueError as e:
-        print(f"Caught expected error: {e}")
-    except TypeError as e:
-        print(f"Caught unexpected error: {e}")
+    gauss_seidel_method(A4, b4, verbose=True)
 
-    print("\n" + "="*30 + "\n")
-
-    # Example 5:  Dimensions of matrix A and vector b do not match.(will raise ValueError)
+    # Example 5: Dimensions of matrix A and vector b do not match.(will raise ValueError)
     print("--- Example 5: Dimensions of matrix A and vector b do not match ---")
     A5 = np.array([[3, 2], 
                    [3, 4]])
     b5 = np.array([1, 2, 3])
-    try:
-        solution5, num_iterations5 = gauss_seidel_method(A5, b5, verbose=True)
-        exito(solution5,num_iterations5)
-    except ValueError as e:
-        print(f"Caught expected error: {e}")
-    except TypeError as e:
-        print(f"Caught unexpected error: {e}")
+    gauss_seidel_method(A5, b5, verbose=True)

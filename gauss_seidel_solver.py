@@ -1,7 +1,38 @@
 import numpy as np
 from colorama import Fore, Style, Back, init
+import functools 
 
 init(autoreset=True) # Para que los colores se reseteen automáticamente
+
+# --- Definición del Decorador ---
+def handle_gauss_seidel_execution(func):
+    """
+    Un decorador que envuelve la ejecución de la función Gauss-Seidel,
+    agrega separadores visuales y maneja excepciones específicas.
+    """
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            # Aquí es donde se llama a la función original (gauss_seidel_method)
+            solution, num_iterations = func(*args, **kwargs)
+            # exito() se llama si la función se ejecuta sin errores
+            exito(solution, num_iterations) 
+            return solution, num_iterations
+        except ValueError as e:
+            print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")
+            return None, None
+        except TypeError as e:
+            print(f"{Fore.RED}Error: {e}{Style.RESET_ALL}")
+            return None, None
+        except Exception as e: # Captura cualquier otra excepción inesperada
+            print(f"{Fore.RED}Ocurrió un error inesperado: {e}{Style.RESET_ALL}")
+            return None, None
+        finally:
+            print("\n" + "="*70 + "\n") # Separador inferior
+    return wrapper
+
+# --- Aplicar el Decorador a gauss_seidel_method ---
+@handle_gauss_seidel_execution
 def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations=100, verbose=False):
     """
     Gauss-Seidel Iterative Method for solving a system of linear equations Ax = b.
