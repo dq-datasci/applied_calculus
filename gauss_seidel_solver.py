@@ -63,13 +63,3 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     raise ValueError(f"Gauss-Seidel method did not converge within {max_iterations} iterations. "
                      f"Current error: {current_error:.6e}")
 
-# Example usage:
-A = np.array([[5, 2, 1],
-              [-1, 4, 2],
-              [2, -3, 10]])
-
-b = np.array([7, 3, -1])
-
-solution, num_iterations = gauss_seidel_method(A, b)
-print("Solution vector:", solution)
-print("Number of iterations:", num_iterations)
