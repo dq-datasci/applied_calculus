@@ -33,26 +33,28 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
         raise ValueError("Diagonal element(s) of matrix A are zero. Gauss-Seidel may not converge or divide by zero.")
 
     x = initial_guess if initial_guess is not None else np.zeros(n, dtype=np.float64) 
-    error = np.zeros(n) 
+ 
     
     y = [chr(i) for i in range(97, 97+n)]
     print(f'it: {y} Error:')
 
     for iteration in range(max_iterations):
-        print(f'{iteration}: {x} {error}')
+        x_old = np.copy(x) # Store the old x for error calculation
         x_new = np.copy(x)
         for i in range(n):
             sigma = sum(A[i, j] * x_new[j] for j in range(n) if j != i)
             x_new[i] = (b[i] - sigma) / A[i, i]
 
-        if np.allclose(x, x_new, rtol=tolerance):
+        # Calculate error using the L2 norm for a single scalar value
+        current_error = np.linalg.norm(x_new - x_old) # ¡Ojo! x_new es la solución actualizada, x_old es la previa
+        
+        if current_error < tolerance:
             return x_new, iteration + 1
-    
-        error = abs(x - x_new)
-
+        
         x = x_new
 
-    raise ValueError("Gauss-Seidel method did not converge within the specified number of iterations.")
+    raise ValueError(f"Gauss-Seidel method did not converge within {max_iterations} iterations. "
+                     f"Current error: {current_error:.6e}")
 
 # Example usage:
 A = np.array([[5, 2, 1],
