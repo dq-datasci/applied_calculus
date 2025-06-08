@@ -5,15 +5,21 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     Gauss-Seidel Iterative Method for solving a system of linear equations Ax = b.
 
     Parameters:
-    - A: Coefficient matrix.
-    - b: Right-hand side vector.
-    - initial_guess: Initial guess for the solution vector (default is None).
-    - tolerance: Tolerance for stopping criteria.
-    - max_iterations: Maximum number of iterations.
+    - A: Coefficient matrix (numpy.ndarray).
+    - b: Right-hand side vector (numpy.ndarray).
+    - initial_guess: Initial guess for the solution vector (numpy.ndarray, default is None).
+    - tolerance: Relative tolerance for stopping criteria (float).
+    - max_iterations: Maximum number of iterations (int).
+    - verbose: If True, prints iteration details (bool).
 
     Returns:
-    - x: Solution vector.
-    - iterations: Number of iterations performed.
+    - x: Solution vector (numpy.ndarray).
+    - iterations: Number of iterations performed (int).
+
+    Raises:
+    - TypeError: If A or b are not numpy arrays.
+    - ValueError: If A is not a square matrix, dimensions of A and b do not match,
+                  a diagonal element of A is zero, or the method does not converge.
     """
 
     if not isinstance(A, np.ndarray) or not isinstance(b, np.ndarray):
