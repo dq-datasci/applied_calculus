@@ -15,14 +15,25 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     - x: Solution vector.
     - iterations: Number of iterations performed.
     """
-    
+
+    if not isinstance(A, np.ndarray) or not isinstance(b, np.ndarray):
+        raise TypeError("A and b must be numpy arrays.")
+    if A.ndim != 2 or A.shape[0] != A.shape[1]:
+        raise ValueError("Matrix A must be a square matrix.")
+    if A.shape[0] != len(b):
+        raise ValueError("Dimensions of matrix A and vector b do not match.")
+
     A = A.astype(np.float64)
     b = b.astype(np.float64)
 
     n = len(b)
+    
+    # Check for zero diagonal elements
+    if np.any(np.diag(A) == 0):
+        raise ValueError("Diagonal element(s) of matrix A are zero. Gauss-Seidel may not converge or divide by zero.")
 
-    x = initial_guess if initial_guess is not None else np.zeros(n)
-    error = np.zeros(n)
+    x = initial_guess if initial_guess is not None else np.zeros(n, dtype=np.float64) 
+    error = np.zeros(n) 
     
     y = [chr(i) for i in range(97, 97+n)]
     print(f'it: {y} Error:')
