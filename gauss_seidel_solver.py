@@ -70,9 +70,6 @@ def gauss_seidel_method(A, b, initial_guess=None, tolerance=1e-6, max_iterations
     # Check for zero diagonal elements
     if np.any(np.diag(A) == 0):
         raise ValueError(f"{Fore.RED}{Style.BRIGHT}Error de Configuración:{Style.RESET_ALL} Elemento(s) diagonal(es) de la matriz A son cero. Gauss-Seidel puede no converger o causar división por cero.")
-    # Check for negative diagonal elements
-    if np.any(np.diag(A) < 0):
-        raise ValueError("Negative diagonal element(s) of matrix A. Gauss-Seidel may not converge.")
 
     x = initial_guess if initial_guess is not None else np.zeros(n, dtype=np.float64) 
  
