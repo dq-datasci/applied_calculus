@@ -1,8 +1,5 @@
 from gauss_seidel_solver import gauss_seidel_method
 import numpy as np
-from colorama import Fore, Back, Style, init
-
-init(autoreset=True)
 
 if __name__ == "__main__":
     # Example 1
